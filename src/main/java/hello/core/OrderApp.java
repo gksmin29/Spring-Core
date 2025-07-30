@@ -19,7 +19,7 @@ public class OrderApp {
         //우선 db(현재는 메모리)에 넣음
         memberService.join(member);
 
-        Order order = orderService.createOrder(memberId, "itemA", 10000);
+        Order order = orderService.createOrder(memberId, "itemA", 20000);
 
         //주문 정보 출력(toString)
         System.out.println("order = " + order);
