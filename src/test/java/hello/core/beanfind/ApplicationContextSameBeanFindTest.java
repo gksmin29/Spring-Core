@@ -46,7 +46,7 @@ public class ApplicationContextSameBeanFindTest {
         assertThat(beansOfType.size()).isEqualTo(2);
     }
 
-    //직접 구성 파일을 만들어서 쓴다(AppConfig 와는 조금 다른 케이스 이므로)
+    //직접 구성 파일을 만들어서 쓴다(AppConfig 와는 조금 다른 케이스이니까)
     @Configuration
     static class SameBeanConfig {
 
