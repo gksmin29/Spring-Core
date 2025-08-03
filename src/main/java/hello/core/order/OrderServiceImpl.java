@@ -3,40 +3,29 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+//final이 붙은 필드를 파라미터로 받는 생성자를 만들어 준다.
+//@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     //여기서는 할인에 대해서는 고려하지 않게끔 설계했음.(단일책임원칙은 지킨 것)
-    private MemberRepository memberRepository;
-    private DiscountPolicy discountPolicy; //인터페이스에만 의존하도록 변경
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy; //인터페이스에만 의존하도록 변경
 
     /*구현체를 참조하는 것을 막기 위한 주석 처리
     private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     private final DiscountPolicy discountPolicy = new RateDiscountPolicy();*/
 
+
+    //@RequiredArgsConstructor로 생성자를 만들었으므로 주석 처리
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
-
-    @Autowired
-    public void init(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
-
-    @Autowired
-    public void setMemberRepository(MemberRepository memberRepository) {
-        System.out.println("memberRepository = " + memberRepository);
-        this.memberRepository = memberRepository;
-    }
-
-    @Autowired
-    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
-        System.out.println("discountPolicy = " + discountPolicy);
         this.discountPolicy = discountPolicy;
     }
 

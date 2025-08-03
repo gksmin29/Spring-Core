@@ -27,9 +27,8 @@ public class AppConfig {
     //OrderService를 반환하는 객체(Repository와 DiscountPolicy를 담은 Service를 반환)
     public OrderService orderService() {
         System.out.println("call AppConfig.orderService");
-        //return new OrderServiceImpl(memberRepository(), discountPolicy());
-
-        return null;
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+        //return null;
     }
 
     @Bean
