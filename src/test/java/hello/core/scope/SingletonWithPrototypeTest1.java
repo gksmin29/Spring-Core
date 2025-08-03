@@ -2,7 +2,9 @@ package hello.core.scope;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.inject.Provider;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -33,21 +35,18 @@ public class SingletonWithPrototypeTest1 {
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         //여기서는 이미 주입된 prototype을 사용 -> 1에서 2가 됨.
         int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
 
     }
 
     @Scope("singleton")
     static class ClientBean {
-        private final PrototypeBean prototypeBean;
 
         @Autowired
-        //이러면 컨테이너가 prototype을 만들어서 주입해줌
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        private Provider<PrototypeBean> prototypeProvider;
 
         public int logic() {
+            PrototypeBean prototypeBean = prototypeProvider.get();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
